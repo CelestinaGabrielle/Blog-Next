@@ -1,5 +1,5 @@
 import { getGlobalData } from '../../utils/global-data';
-import { getPostBySlug } from '../../utils/mdx-utils';
+import { getStudyById } from '../../utils/mdx-utils'; 
 import Head from 'next/head';
 import CustomLink from '../../components/CustomLink';
 import Footer from '../../components/Footer';
@@ -12,33 +12,33 @@ const components = {
   Head,
 };
 
-export default function PostPage({ post, globalData }) {
-  if (!post) {
-    console.error('Post não encontrado');
-    return <div>Post não encontrado</div>;
+export default function StudyPage({ study, globalData }) {
+  if (!study) {
+    console.error('Estudo não encontrado');
+    return <div>Estudo não encontrado</div>;
   }
 
-  console.log('Post carregado:', post);
+  console.log('Estudo carregado:', study);
 
   return (
     <Layout>
       <SEO
-        title={`${post.title} - ${globalData.name}`} 
-        description={post.description} 
+        title={`${study.title} - ${globalData.name}`}
+        description={study.description}
       />
       <Header name={globalData.name} />
       <article className="px-6 md:px-0">
         <header>
           <h1 className="text-3xl md:text-5xl dark:text-white text-center mb-12">
-            {post.title} 
+            {study.title}
           </h1>
-          {post.description && ( 
-            <p className="text-xl mb-4">{post.description}</p>
+          {study.description && (
+            <p className="text-xl mb-4">{study.description}</p>
           )}
         </header>
         <main>
           <article className="prose dark:prose-dark">
-            {post.body} 
+            {study.body}
           </article>
         </main>
       </article>
@@ -56,13 +56,13 @@ export default function PostPage({ post, globalData }) {
 }
 
 export const getServerSideProps = async ({ params }) => {
-  console.log('ID recebido no getServerSideProps:', params.id); 
+  console.log('ID recebido no getServerSideProps:', params.id);
   const globalData = getGlobalData();
-  const post = await getPostBySlug(params.id);
+  const study = await getStudyById(params.id); 
 
-  console.log('Post retornado pelo getPostBySlug:', post);
+  console.log('Estudo retornado pelo getStudybyID:', study);
 
-  if (!post) {
+  if (!study) {
     return {
       notFound: true,
     };
@@ -71,7 +71,7 @@ export const getServerSideProps = async ({ params }) => {
   return {
     props: {
       globalData,
-      post,
+      study,
     },
   };
 };

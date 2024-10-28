@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getPosts } from '../utils/mdx-utils';
+import { getStudyData } from '../utils/mdx-utils'; 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Layout, { GradientBackground } from '../components/Layout';
@@ -7,7 +7,7 @@ import ArrowIcon from '../components/ArrowIcon';
 import { getGlobalData } from '../utils/global-data';
 import SEO from '../components/SEO';
 
-export default function Index({ posts, globalData }) {
+export default function Index({ study, globalData }) {
   return (
     <Layout>
       <SEO title={globalData.name} description={globalData.blogTitle} />
@@ -17,22 +17,22 @@ export default function Index({ posts, globalData }) {
           {globalData.blogTitle}
         </h1>
         <ul className="w-full">
-          {posts.map((post) => (
+          {study.map((studyItem) => ( 
             <li
-              key={post.id}
+              key={studyItem.id}
               className="md:first:rounded-t-lg md:last:rounded-b-lg backdrop-blur-lg bg-white dark:bg-black dark:bg-opacity-30 bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-50 transition border border-gray-800 dark:border-white border-opacity-10 dark:border-opacity-10 border-b-0 last:border-b hover:border-b hovered-sibling:border-t-0"
             >
-              <Link as={`/posts/${post.id}`} href={`/posts/${post.id}`}>
+              <Link as={`/study/${studyItem.id}`} href={`/study/${studyItem.id}`}>
                 <div className="py-6 lg:py-10 px-6 lg:px-16 block focus:outline-none focus:ring-4">
-                  {post.created_at && (
+                  {studyItem.created_at && (
                     <p className="uppercase mb-3 font-bold opacity-60">
-                      {post.created_at}
+                      {studyItem.created_at}
                     </p>
                   )}
-                  <h2 className="text-2xl md:text-3xl">{post.title}</h2>
-                  {post.description && (
+                  <h2 className="text-2xl md:text-3xl">{studyItem.title}</h2>
+                  {studyItem.description && (
                     <p className="mt-3 text-lg opacity-60">
-                      {post.description}
+                      {studyItem.description}
                     </p>
                   )}
                   <ArrowIcon className="mt-4" />
@@ -56,9 +56,8 @@ export default function Index({ posts, globalData }) {
 }
 
 export async function getServerSideProps() {
-  const posts = await getPosts();
+  const study = await getStudyData(); 
   const globalData = getGlobalData();
 
-  
-  return { props: { posts, globalData } };
+  return { props: { study, globalData } };
 }
