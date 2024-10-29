@@ -51,11 +51,10 @@ export default function StudyPage({ study, globalData }) {
 }
 
 export const getServerSideProps = async ({ params }) => {
-  console.log('ID recebido no getServerSideProps:', params.id);
+ 
   const globalData = getGlobalData();
   const study = await getStudyById(params.id);
 
-  console.log('Post retornado pelo getStudyById:', study);
 
   if (!study) {
     return {
